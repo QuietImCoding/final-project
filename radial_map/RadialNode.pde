@@ -10,7 +10,7 @@ public class RadialNode {
   }
 
   void move() {
-    zcor = sin(radians(angle)) * amp;
+    zcor = sin(radians(myangle)) * amp;
     angle += 5;
   }
   
@@ -19,7 +19,7 @@ public class RadialNode {
     stroke(0, 0, 1  * zcor);
     stroke(0, 0, 1  * zcor);
     pushMatrix();
-    translate(height/2 + cos(radians(angle))*radius,height/2 + sin(radians(angle))*radius, zcor);
+    translate(width/2 + cos(radians(angle))*radius,height/2 + sin(radians(angle))*radius, zcor);
     ellipse(0, 0, 1, 1);
     popMatrix();
   }
