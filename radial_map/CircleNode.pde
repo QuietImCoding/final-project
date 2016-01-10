@@ -24,7 +24,7 @@ public class CircleNode {
     //fill(radius * zcor, zcor * amp, 255 - zcor);
     pushMatrix();
     translate(width/2, height/2, zcor);
-    ellipse(0, 0, radius, radius);
+    rect(0, 0, radius, radius);
     popMatrix();
   }
 }

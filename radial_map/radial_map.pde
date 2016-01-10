@@ -9,6 +9,7 @@ CircleNode[] circles;
 void setup() {
   fullScreen(P3D);
   //size(500,500,P3D);
+  rectMode(CENTER);
   minim = new Minim(this);
   groove = minim.loadFile("hello.mp3", width/4);
   groove.loop();
