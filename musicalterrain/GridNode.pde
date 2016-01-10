@@ -8,7 +8,7 @@ public class GridNode extends Node {
 
   void move() {
     z += sin(radians(2 * angle)) * a;
-    angle += 30;
+    angle += 10;
   }
   
   void move(float dist) {
@@ -17,8 +17,8 @@ public class GridNode extends Node {
   }
 
   void display() {
-    stroke(65, 100 * dist + 155, 0);
-    stroke(65, 100 * dist + 155, 0);
+    stroke(255 * sin(radians((x + y + z) / 3)), 255 * cos(radians((x + y + z) / 3)), 255 * tan(radians((x + y + z) / 3)));
+    fill(255 *sin(radians((x + y + z) / 3 )), 255 * cos(radians((x + y + z) / 3 )), 255 * tan(radians((x + y + z) / 3)));
     pushMatrix();
     translate(x, y, z);
     ellipse(0, 0, 1, 1);

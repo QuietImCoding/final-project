@@ -19,4 +19,12 @@ public abstract class Node {
   float getY() {
     return y;
   }
+  
+  float getZ() {
+    return z;
+  }
+  
+  void setZ(float zcor) {
+    z = zcor;
+  }
 }
