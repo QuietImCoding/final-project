@@ -25,7 +25,7 @@ void setup() {
 void draw() {
   background(0);
   //ambientLight(255, 255, 255);
-  translate(width/16, height/4, -500 * cos(radians(60)));
+  //translate(width/16, height/4, -500 * cos(radians(60)));
   //camera(width/2, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   pushMatrix();
   camera(width - (mouseX * 2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
@@ -51,6 +51,13 @@ void drawGrid() {
       nodes[x][y].display();
     }
   }
+  //this is attempt to connect the nodes as they move up and down in order to create terrain DOES NOT WORK IGNORE FOR NOW
+  //for (int x=0; x<nodes.length-1;x++){
+  //  for (int y=0; y<nodes[0].length-1;y++){
+  //    quad (nodes[x+1][y].xcor,nodes[x+1][y].ycor,nodes[x][y+1].xcor,nodes[x][y+1].ycor,
+  //    nodes[x+1][y+1].xcor,nodes[x+1][y+1].ycor,nodes[x][y].xcor, nodes[x][y].ycor);
+  //  } 
+  //}
 }
 
 void gridBlur() {
