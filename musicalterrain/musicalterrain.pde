@@ -46,7 +46,7 @@ void drawGrid() {
   scale(width/100);
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
-      nodes[x][y].move(groove.mix.get(x + y)*3);
+      nodes[x][y].move(groove.mix.get(x + y)*1.5);
       gridBlur();
       nodes[x][y].display();
     }
