@@ -16,7 +16,7 @@ void setup() {
     }
   }
   minim = new Minim(this);
-  groove = minim.loadFile("hello.mp3", 250);
+  groove = minim.loadFile("hello.mp3", 225);
   groove.loop();
   distZ = (height/2) / tan(PI/8);
   surface.setResizable(true);
@@ -24,7 +24,7 @@ void setup() {
 
 void draw() {
   background(0);
-  //ambientLight(255, 255, 255);
+  ambientLight(255, 255, 255);
   //translate(width/16, height/4, -500 * cos(radians(60)));
   //camera(width/2, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   pushMatrix();
