@@ -1,8 +1,5 @@
 public class GridNode extends Node {
   float dist;
-  float xcor=x;
-  float ycor=y;
-  float zcor=z;
   
   GridNode(float xcor, float ycor, float zcor, float amplitude, float myangle) {
     super(xcor, ycor, zcor, amplitude, myangle);
@@ -26,9 +23,6 @@ public class GridNode extends Node {
     //box(5,5,10); this was a test to see the coordinates
     translate(x, y, z);
     ellipse(0, 0, 1, 1);
-    xcor=x;
-    ycor=y;
-    zcor=z;
     popMatrix();
   }
 }

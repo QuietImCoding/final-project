@@ -51,13 +51,17 @@ void drawGrid() {
       nodes[x][y].display();
     }
   }
-  //this is attempt to connect the nodes as they move up and down in order to create terrain DOES NOT WORK IGNORE FOR NOW
-  //for (int x=0; x<nodes.length-1;x++){
-  //  for (int y=0; y<nodes[0].length-1;y++){
-  //    quad (nodes[x+1][y].xcor,nodes[x+1][y].ycor,nodes[x][y+1].xcor,nodes[x][y+1].ycor,
-  //    nodes[x+1][y+1].xcor,nodes[x+1][y+1].ycor,nodes[x][y].xcor, nodes[x][y].ycor);
-  //  } 
-  //}
+  //connected them but its hard to tell if its working properly or not
+  for (int x=0; x<nodes.length-1;x++){
+   for (int y=0; y<nodes[0].length-1;y++){
+     beginShape();
+     vertex (nodes[x][y].x,nodes[x][y].y,nodes[x][y].z);
+     vertex (nodes[x+1][y].x, nodes[x+1][y].y,nodes[x+1][y].z);
+     vertex (nodes[x+1][y+1].x, nodes[x+1][y+1].y, nodes[x+1][y+1].z);
+     vertex (nodes[x][y+1].x,nodes[x][y+1].y,nodes[x][y+1].z);
+     endShape();
+   } 
+  }
 }
 
 void gridBlur() {
