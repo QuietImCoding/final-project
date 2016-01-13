@@ -68,47 +68,47 @@ void drawGrid() {
     }
   }
   drawBorder();
-  //ellipse(0,0,1,1);
-  //ellipse(nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y,1,1);
-  //ellipse(nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y,1,1);
-  // drawBorder2();
+  //text("(0,0", 0, 0);
+  //text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
+  //text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
+  drawBorder2();
   //print (nodes[nodes[0].length-1][0].x);
   //println (nodes[0][nodes.length-1].y);
 }
 
-void drawBorder(){
- beginShape();
- vertex(nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
- vertex(0,0,lowestZ()-15);
- vertex(0, nodes[0][nodes[0].length-1].y, lowestZ()-15);
- vertex(nodes[0][0].x, nodes[0][nodes.length-1].y, nodes[0][nodes[0].length-1].z);
- for (int x=nodes.length-1; x>0; x--) {
-   vertex (nodes[0][x].x, nodes[0][x].y,nodes[0][x].z);
- }
- endShape();
+void drawBorder() {
+  beginShape();
+    vertex(nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
+    vertex(0, 0, lowestZ()-15);
+    vertex(0, nodes[0][nodes[0].length-1].y, lowestZ()-15);
+    vertex(nodes[0][0].x, nodes[0][nodes.length-1].y, nodes[0][nodes[0].length-1].z);
+  for (int y=nodes.length-1; y>0; y--) {
+    vertex (nodes[0][y].x, nodes[0][y].y, nodes[0][y].z);
+  }
+  endShape();
 }
 
 //nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y
 //nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y
-//DOESNT WORK. NEED TO ANAYLYZE MORE
-//void drawBorder2(){
-// beginShape();
-// vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
-// vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
-// vertex(nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
-// vertex(nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
-// for (int x=nodes.length-1; x>0; x--) {
-//   vertex (nodes[x][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y,nodes[x][x].z);
-// }
-// endShape();
-//}
+//DOESNT WORK. NEED TO ANALYZE MORE
+void drawBorder2() {
+  beginShape();
+    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+  for (int x=nodes.length-1; x>0; x--) {
+    vertex (nodes[x][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[x][nodes[0].length-1].z);
+  }
+  endShape();
+}
 
 
-float lowestZ(){
+float lowestZ() {
   float lowest= nodes[0][0].z;
-  for (int x=0; x<nodes.length-1;x++){
-    for (int y=0; y<nodes[0].length-1;y++){
-      if (nodes[x][y].z < lowest){
+  for (int x=0; x<nodes.length-1; x++) {
+    for (int y=0; y<nodes[0].length-1; y++) {
+      if (nodes[x][y].z < lowest) {
         lowest = nodes[x][y].z;
       }
     }
