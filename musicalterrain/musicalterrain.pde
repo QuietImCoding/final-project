@@ -30,6 +30,7 @@ void draw() {
   //camera(width/2, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   pushMatrix();
   camera(width - (mouseX * 2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
+  //scale(2);
   drawGrid();
   popMatrix();
   if (keyPressed) {
@@ -68,10 +69,11 @@ void drawGrid() {
     }
   }
   drawBorder();
+  drawBorder2();
+  drawBorder3();
   //text("(0,0", 0, 0);
   //text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
   //text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
-  drawBorder2();
   //print (nodes[nodes[0].length-1][0].x);
   //println (nodes[0][nodes.length-1].y);
 }
@@ -88,10 +90,31 @@ void drawBorder() {
   endShape();
 }
 
-//nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y
-//nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y
-//DOESNT WORK. NEED TO ANALYZE MORE
 void drawBorder2() {
+  beginShape();
+    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+  for (int x=nodes.length-1; x>0; x--) {
+    vertex (nodes[x][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[x][nodes[0].length-1].z);
+  }
+  endShape();
+}
+
+void drawBorder3() {
+  beginShape();
+    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][0].y, nodes[nodes[0].length-1][0].z);
+    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][0].y, lowestZ()-15);
+    for (int y=nodes.length-1; y>0; y--) {
+    vertex (nodes[nodes[0].length-1][y].x, nodes[nodes[0].length-1][y].y, nodes[nodes[0].length-1][y].z);
+  }
+  endShape();
+}
+
+void drawBorder4() {
   beginShape();
     vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
     vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
