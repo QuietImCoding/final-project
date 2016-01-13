@@ -49,7 +49,7 @@ void drawGrid() {
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
       if (groove.isPlaying()) {
-        nodes[x][y].move(groove.mix.get(x + y)*1.5);
+        nodes[x][y].move(groove.mix.get(x + y)*.5);
       }
       nodes[x][y].display();
     }
@@ -67,6 +67,32 @@ void drawGrid() {
       endShape();
     }
   }
+  drawBorders();
+}
+
+//DOES NOT WORK
+void drawBorders(){
+ beginShape();
+ vertex(nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
+ vertex(0,0,lowestZ()-15);
+ vertex(0, nodes[0][nodes[0].length-1].y, lowestZ()-15);
+ vertex(nodes[0][0].x, nodes[0][nodes.length-1].y, nodes[0][nodes[0].length-1].z);
+ for (int x=nodes.length-1; x>0; x--) {
+   vertex (nodes[0][x].x, nodes[0][x].y,nodes[0][x].z);
+ }
+ endShape();
+}
+
+float lowestZ(){
+  float lowest= nodes[0][0].z;
+  for (int x=0; x<nodes.length-1;x++){
+    for (int y=0; y<nodes[0].length-1;y++){
+      if (nodes[x][y].z < lowest){
+        lowest = nodes[x][y].z;
+      }
+    }
+  }
+  return lowest;
 }
 
 //void gridBlur() {
