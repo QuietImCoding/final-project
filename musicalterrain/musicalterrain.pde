@@ -19,7 +19,7 @@ void setup() {
   }
   pauseDrawing= false;
   minim = new Minim(this);
-  groove = minim.loadFile("insideout.mp3", 1600);
+  groove = minim.loadFile("hello.mp3", 1600);
   groove.loop();
   distZ = (height/2) / tan(PI/8);
   surface.setResizable(true);
@@ -63,7 +63,7 @@ void drawGrid() {
     for (int y=0; y<nodes[0].length-1; y++) {
       noStroke();
       //stroke(255*cos(radians(y)), 255*tan(radians(y)), 255*sin(radians(y)));
-      fill(10 * nodes[x][y].z,120,0);
+      fill(10 * nodes[x][y].z, 120, 0);
       beginShape();
       vertex (nodes[x][y].x, nodes[x][y].y, nodes[x][y].z);
       vertex (nodes[x+1][y].x, nodes[x+1][y].y, nodes[x+1][y].z);
@@ -72,10 +72,12 @@ void drawGrid() {
       endShape();
     }
   }
-  noStroke();
+  //noStroke();
+  strokeWeight(3);
   drawBorder();
   drawBorder2();
   drawBorder3();
+  drawWater();
   //text("(0,0", 0, 0);
   //text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
   //text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
@@ -83,11 +85,26 @@ void drawGrid() {
   //println (nodes[0][nodes.length-1].y);
 }
 
+void drawWater() {
+  if (highestZ()- lowestZ() > 10) {
+    pushMatrix();
+    fill(0, 0, 210);
+    beginShape();
+    vertex(nodes[0][0].x, nodes[0][0].y, lowestZ()+3);
+    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()+3);
+    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()+3);
+    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[0][0].y, lowestZ()+3);
+    endShape();
+    popMatrix();
+  }
+}
+
+
 void drawBorder() {
   beginShape();
   vertex(nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
   vertex(0, 0, lowestZ()-15);
-  vertex(0, nodes[0][nodes[0].length-1].y, lowestZ()-15);
+  vertex(0, nodes[0][nodes[0].length-1].y, lowestZ()-15    );
   vertex(nodes[0][0].x, nodes[0][nodes.length-1].y, nodes[0][nodes[0].length-1].z);
   for (int y=nodes.length-1; y>=0; y--) {
     vertex (nodes[0][y].x, nodes[0][y].y, nodes[0][y].z);
@@ -142,6 +159,18 @@ float lowestZ() {
     }
   }
   return lowest;
+}
+
+float highestZ() {
+  float highest= nodes[0][0].z;
+  for (int x=0; x<nodes.length-1; x++) {
+    for (int y=0; y<nodes[0].length-1; y++) {
+      if (nodes[x][y].z > highest) {
+        highest = nodes[x][y].z;
+      }
+    }
+  }
+  return highest;
 }
 
 //void gridBlur() {
