@@ -19,7 +19,7 @@ void setup() {
   }
   pauseDrawing= false;
   minim = new Minim(this);
-  groove = minim.loadFile("ontop.mp3", 1600);
+  groove = minim.loadFile("insideout.mp3", 1600);
   groove.loop();
   distZ = (height/2) / tan(PI/8);
   surface.setResizable(true);
@@ -27,7 +27,8 @@ void setup() {
 
 void draw() {
   background(0);
-  ambientLight(255, 255, 255);
+  lights();
+  //ambientLight(255, 255, 255);
   //translate(width/16, height/4, -500 * cos(radians(60)));
   //camera(width/2, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   pushMatrix();
@@ -62,7 +63,7 @@ void drawGrid() {
     for (int y=0; y<nodes[0].length-1; y++) {
       noStroke();
       //stroke(255*cos(radians(y)), 255*tan(radians(y)), 255*sin(radians(y)));
-      fill( (nodes[x][y].z + 1) * 10, 255 - (nodes[x][y].z + 1) * 10, (nodes[x][y].z + 1) * 10);
+      fill(10 * nodes[x][y].z,120,0);
       beginShape();
       vertex (nodes[x][y].x, nodes[x][y].y, nodes[x][y].z);
       vertex (nodes[x+1][y].x, nodes[x+1][y].y, nodes[x+1][y].z);
