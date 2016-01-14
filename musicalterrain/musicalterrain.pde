@@ -6,6 +6,7 @@ GridNode[][] nodes;
 float angle;
 float distZ;
 boolean pauseDrawing;
+Crawler crawl;
 
 void setup() {
   //frameRate(30);
@@ -17,6 +18,7 @@ void setup() {
       //angle+=5;
     }
   }
+  crawl = new Crawler(20, 20, 0);
   pauseDrawing= false;
   minim = new Minim(this);
   groove = minim.loadFile("insideout.mp3", 1600);
@@ -35,6 +37,9 @@ void draw() {
   camera(width - (mouseX * 2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
   //scale(2);
   drawGrid();
+  println(crawl.getX() + " " + crawl.getY() + " " + crawl.getZ());
+  crawl.move(nodes[crawl.getX()][crawl.getY()].z);
+  crawl.display();
   popMatrix();
   if (keyPressed) {
     if (key == 'w') {
