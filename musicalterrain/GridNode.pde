@@ -18,7 +18,8 @@ public class GridNode extends Node {
 
   void display() {
     stroke(255 * sin(radians((x + y + z) / 3)), 255 * cos(radians((x + y + z) / 3)), 255 * tan(radians((x + y + z) / 3)));
-    fill(255 *sin(radians((x + y + z) / 3 )), 255 * cos(radians((x + y + z) / 3 )), 255 * tan(radians((x + y + z) / 3)));
+    //fill(255 *sin(radians((x + y + z) / 3 )), 255 * cos(radians((x + y + z) / 3 )), 255 * tan(radians((x + y + z) / 3)));
+    fill(0,210,0); 
     pushMatrix();
     //box(5,5,10); this was a test to see the coordinates
     translate(x, y, z);
