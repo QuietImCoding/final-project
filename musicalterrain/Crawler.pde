@@ -12,14 +12,14 @@ public class Crawler{
    rotateX(PI/2.5);
    translate(x, y, z);
    box(1);
+   popMatrix();
  }
  
  void move(float z) {
    
    this.z = z;
  }
-   this.x = x;
-   this.y = y;
+
  
  int getX() {
    return (int)x;
