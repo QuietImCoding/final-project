@@ -5,6 +5,7 @@ AudioPlayer groove;
 GridNode[][] nodes;
 float angle;
 float distZ;
+boolean pauseDrawing;
 
 void setup() {
   //frameRate(30);
@@ -12,12 +13,13 @@ void setup() {
   nodes = new GridNode[40][40];
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
-      nodes[x][y] = new GridNode(x * 2, y * 2, 0, 30, angle);
+      nodes[x][y] = new GridNode(x * 2, y * 2, 0, 60, angle);
       //angle+=5;
     }
   }
+  pauseDrawing= false;
   minim = new Minim(this);
-  groove = minim.loadFile("iloveyou.mp3", 1600);
+  groove = minim.loadFile("ontop.mp3", 1600);
   groove.loop();
   distZ = (height/2) / tan(PI/8);
   surface.setResizable(true);
@@ -49,7 +51,7 @@ void drawGrid() {
 
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
-      if (groove.isPlaying()) {
+      if (groove.isPlaying() && ! pauseDrawing) {
         nodes[x][y].move(groove.mix.get(x + y)*.5);
       }
       nodes[x][y].display();
@@ -58,8 +60,9 @@ void drawGrid() {
   //connected them but its hard to tell if its working properly or not
   for (int x=0; x<nodes.length-1; x++) {
     for (int y=0; y<nodes[0].length-1; y++) {
-      stroke(255*cos(radians(y)), 255*tan(radians(y)), 255*sin(radians(y)));
-      fill(255*cos(radians(y)), 255*tan(radians(y)), 255*sin(radians(y)));
+      noStroke();
+      //stroke(255*cos(radians(y)), 255*tan(radians(y)), 255*sin(radians(y)));
+      fill( (nodes[x][y].z + 1) * 10, 255 - (nodes[x][y].z + 1) * 10, (nodes[x][y].z + 1) * 10);
       beginShape();
       vertex (nodes[x][y].x, nodes[x][y].y, nodes[x][y].z);
       vertex (nodes[x+1][y].x, nodes[x+1][y].y, nodes[x+1][y].z);
@@ -68,6 +71,7 @@ void drawGrid() {
       endShape();
     }
   }
+  noStroke();
   drawBorder();
   drawBorder2();
   drawBorder3();
@@ -80,11 +84,11 @@ void drawGrid() {
 
 void drawBorder() {
   beginShape();
-    vertex(nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
-    vertex(0, 0, lowestZ()-15);
-    vertex(0, nodes[0][nodes[0].length-1].y, lowestZ()-15);
-    vertex(nodes[0][0].x, nodes[0][nodes.length-1].y, nodes[0][nodes[0].length-1].z);
-  for (int y=nodes.length-1; y>0; y--) {
+  vertex(nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
+  vertex(0, 0, lowestZ()-15);
+  vertex(0, nodes[0][nodes[0].length-1].y, lowestZ()-15);
+  vertex(nodes[0][0].x, nodes[0][nodes.length-1].y, nodes[0][nodes[0].length-1].z);
+  for (int y=nodes.length-1; y>=0; y--) {
     vertex (nodes[0][y].x, nodes[0][y].y, nodes[0][y].z);
   }
   endShape();
@@ -92,11 +96,11 @@ void drawBorder() {
 
 void drawBorder2() {
   beginShape();
-    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
-    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
-    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
-    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
-  for (int x=nodes.length-1; x>0; x--) {
+  vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+  vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+  vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+  vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+  for (int x=nodes.length-1; x>=0; x--) {
     vertex (nodes[x][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[x][nodes[0].length-1].z);
   }
   endShape();
@@ -104,22 +108,22 @@ void drawBorder2() {
 
 void drawBorder3() {
   beginShape();
-    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
-    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
-    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][0].y, nodes[nodes[0].length-1][0].z);
-    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][0].y, lowestZ()-15);
-    for (int y=nodes.length-1; y>0; y--) {
-    vertex (nodes[nodes[0].length-1][y].x, nodes[nodes[0].length-1][y].y, nodes[nodes[0].length-1][y].z);
+  vertex(nodes[nodes.length-1][nodes.length-1].x, nodes[nodes.length-1][nodes.length-1].y, nodes[nodes.length-1][nodes.length-1].z);
+  vertex(nodes[nodes.length-1][nodes.length-1].x, nodes[nodes.length-1][nodes.length-1].y, lowestZ()-15);
+  vertex(nodes[nodes.length-1][0].x, nodes[nodes.length-1][0].x, lowestZ()-15);
+  vertex(nodes[nodes.length-1][0].x, nodes[nodes.length-1][0].y, nodes[nodes.length-1][0].z);
+  for (int y=0; y<=nodes.length-1; y++) {
+    vertex (nodes[nodes.length-1][y].x, nodes[nodes.length-1][y].y, nodes[nodes.length-1][y].z);
   }
   endShape();
 }
 
 void drawBorder4() {
   beginShape();
-    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
-    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
-    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
-    vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+  vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
+  vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+  vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()-15);
+  vertex(nodes[nodes[0].length-1][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[nodes[0].length-1][nodes[0].length-1].z);
   for (int x=nodes.length-1; x>0; x--) {
     vertex (nodes[x][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, nodes[x][nodes[0].length-1].z);
   }
@@ -153,6 +157,13 @@ void keyPressed() {
       groove.pause();
     } else {
       groove.play();
+    }
+  }
+  if (key == 'c') {
+    if (pauseDrawing) {
+      pauseDrawing = false;
+    } else {
+      pauseDrawing = true;
     }
   }
 }
