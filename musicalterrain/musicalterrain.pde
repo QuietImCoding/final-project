@@ -88,8 +88,8 @@ void drawGrid() {
 }
 
 void averageValues() {
-  for(int x = 0; x < nodes.length-1; x++) {
-    for (int y = 0; y < nodes[x].length - 1; y++) { 
+  for(int x = 0; x < (nodes.length/ 2) - 1; x++) {
+    for (int y = 0; y < (nodes[x].length / 2) - 1; y++) { 
       if(x > 0 && y > 0) {
         nodes[x][y].z = (nodes[x + 1][y].z + nodes[x - 1][y].z + nodes[x][y + 1].z + nodes[x][y - 1].z) / 4;
       }
