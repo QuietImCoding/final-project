@@ -61,6 +61,7 @@ void drawGrid() {
         nodes[x][y].move(groove.mix.get(x + y)*.5);
       }
       nodes[x][y].display();
+      averageValues();
     }
   }
   //connected them but its hard to tell if its working properly or not
@@ -78,12 +79,22 @@ void drawGrid() {
   }
   noStroke();
   drawBorders();
-  drawWater();
-  text("(0,0", 0, 0);
-  text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
-  text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
+  //drawWater();
+  //text("(0,0", 0, 0);
+  //text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
+  //text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
   //print (nodes[nodes[0].length-1][0].x);
   //println (nodes[0][nodes.length-1].y);
+}
+
+void averageValues() {
+  for(int x = 0; x < nodes.length-1; x++) {
+    for (int y = 0; y < nodes[x].length - 1; y++) { 
+      if(x > 0 && y > 0) {
+        nodes[x][y].z = (nodes[x + 1][y].z + nodes[x - 1][y].z + nodes[x][y + 1].z + nodes[x][y - 1].z) / 4;
+      }
+    }
+  }      
 }
 
 void drawWater() {
