@@ -66,10 +66,9 @@ void drawGrid() {
   //connected them but its hard to tell if its working properly or not
   for (int x=0; x<nodes.length-1; x++) {
     for (int y=0; y<nodes[0].length-1; y++) {
-      noStroke();
-      //stroke(255*cos(radians(y)), 255*tan(radians(y)), 255*sin(radians(y)));
+      //stroke(10 * nodes[x][y].z, 120, 0);
       fill(10 * nodes[x][y].z, 120, 0);
-      beginShape();
+      beginShape(TRIANGLE_FAN);
       vertex (nodes[x][y].x, nodes[x][y].y, nodes[x][y].z);
       vertex (nodes[x+1][y].x, nodes[x+1][y].y, nodes[x+1][y].z);
       vertex (nodes[x+1][y+1].x, nodes[x+1][y+1].y, nodes[x+1][y+1].z);
@@ -77,11 +76,8 @@ void drawGrid() {
       endShape();
     }
   }
-  //noStroke();
-  strokeWeight(3);
-  drawBorder();
-  drawBorder2();
-  drawBorder3();
+  noStroke();
+  drawBorders();
   drawWater();
   //text("(0,0", 0, 0);
   //text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
@@ -91,19 +87,27 @@ void drawGrid() {
 }
 
 void drawWater() {
+  float alt = 5;
   if (highestZ()- lowestZ() > 10) {
     pushMatrix();
     fill(0, 0, 210);
     beginShape();
-    vertex(nodes[0][0].x, nodes[0][0].y, lowestZ()+3);
-    vertex(nodes[0][0].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()+3);
-    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[nodes[0].length-1][nodes[0].length-1].y, lowestZ()+3);
-    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x, nodes[0][0].y, lowestZ()+3);
+    vertex(nodes[0][0].x+1, nodes[0][0].y+1, lowestZ()+alt);
+    vertex(nodes[0][0].x+1, nodes[nodes[0].length-1][nodes[0].length-1].y-1, lowestZ()+alt);
+    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x-1, nodes[nodes[0].length-1][nodes[0].length-1].y+1, lowestZ()+alt);
+    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x-1, nodes[0][0].y+1, lowestZ()+alt);
     endShape();
     popMatrix();
   }
 }
 
+
+void drawBorders() {
+  noStroke();
+  drawBorder();
+  drawBorder2();
+  drawBorder3();
+}
 
 void drawBorder() {
   beginShape();
