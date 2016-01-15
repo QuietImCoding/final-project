@@ -79,15 +79,15 @@ void drawGrid() {
   noStroke();
   drawBorders();
   drawWater();
-  //text("(0,0", 0, 0);
-  //text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
-  //text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
+  text("(0,0", 0, 0);
+  text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
+  text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
   //print (nodes[nodes[0].length-1][0].x);
   //println (nodes[0][nodes.length-1].y);
 }
 
 void drawWater() {
-  float alt = 5;
+  float alt = highestZ()- ((highestZ() + lowestZ())/2);
   if (highestZ()- lowestZ() > 10) {
     pushMatrix();
     fill(0, 0, 210);
@@ -97,6 +97,19 @@ void drawWater() {
     vertex(nodes[nodes[0].length-1][nodes[0].length-1].x-1, nodes[nodes[0].length-1][nodes[0].length-1].y+1, lowestZ()+alt);
     vertex(nodes[nodes[0].length-1][nodes[0].length-1].x-1, nodes[0][0].y+1, lowestZ()+alt);
     endShape();
+    // IGNORE. DOESNT WORK AS INTENDED
+    //beginShape();
+    //vertex(nodes[0][0].x+1, nodes[0][0].y+1, lowestZ()+alt);
+    //vertex(nodes[0][0].x+1, nodes[0][0].y+1, lowestZ()-alt);
+    //vertex(nodes[0][0].x+1, nodes[0][nodes.length-1].y+1, lowestZ()-alt);
+    //vertex(nodes[0][0].x+1, nodes[0][nodes.length-1].y+1, lowestZ()+alt);
+    //endShape();
+    //beginShape();
+    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[0][nodes[0].length-1].y-1, lowestZ()+alt);
+    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[0][nodes[0].length-1].y-1, lowestZ()-alt);
+    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[nodes[0].length-1][nodes[0].length-1].y-1, lowestZ()-alt);
+    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[nodes[0].length-1][nodes[0].length-1].y-1, lowestZ()+alt);;
+    //endShape();
     popMatrix();
   }
 }
