@@ -1,4 +1,4 @@
-public class GridNode extends Node {
+public class GridNode extends Node implements Cloneable{
   float dist;
   
   GridNode(float xcor, float ycor, float zcor, float amplitude, float myangle) {
@@ -15,6 +15,10 @@ public class GridNode extends Node {
     z = 2 * dist * a;
     this.dist = dist;
   }
+  
+  protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
   void display() {
     //stroke(255 * sin(radians((x + y + z) / 3)), 255 * cos(radians((x + y + z) / 3)), 255 * tan(radians((x + y + z) / 3)));

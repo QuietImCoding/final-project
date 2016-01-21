@@ -8,7 +8,7 @@ float distZ;
 boolean pauseDrawing;
 Crawler crawl;
 
-void setup() {
+void setup() { 
   //frameRate(30);
   size(500, 500, P3D);
   nodes = new GridNode[40][40];
@@ -61,9 +61,9 @@ void drawGrid() {
         nodes[x][y].move(groove.mix.get(x + y)*.5);
       }
       nodes[x][y].display();
-      averageValues();
     }
   }
+   averageValues();
   //connected them but its hard to tell if its working properly or not
   for (int x=0; x<nodes.length-1; x++) {
     for (int y=0; y<nodes[0].length-1; y++) {
@@ -88,14 +88,58 @@ void drawGrid() {
 }
 
 void averageValues() {
-  for(int x = 0; x < (nodes.length/ 2) - 1; x++) {
+  GridNode[][] temp = new GridNode[nodes.length][];
+  for (int x=0; x<nodes.length; x++){
+    temp[x]=nodes[x].clone();
+  }
+  for (int x = 0; x < (nodes.length) - 1; x++) {
+   for (int y = 0; y < (nodes[x].length) - 1; y++) { 
+     if (x > 0 && y > 0) {
+       nodes[x][y].z = (temp[x][y].z + ((temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4))/2;
+     }
+   }
+  }
+}
+
+void averageTerrain() {
+  GridNode[][] temp;
+  temp = new GridNode [nodes.length][nodes[0].length];
+  for (int x=0; x<nodes.length;x++){
+    for (int y=0; y<nodes[0].length; y++){
+      temp [x][y] = nodes [x][y];
+    }
+  }
+  
+  for (int x = 0; x < (nodes.length/ 2) - 1; x++) {
     for (int y = 0; y < (nodes[x].length / 2) - 1; y++) { 
-      if(x > 0 && y > 0) {
-        nodes[x][y].z = (nodes[x + 1][y].z + nodes[x - 1][y].z + nodes[x][y + 1].z + nodes[x][y - 1].z) / 4;
+      if (x > 0 && y > 0) {
+        nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
       }
     }
-  }      
+  }  
+  for (int x = 0; x < (nodes.length/ 2) - 1; x++) {
+    for (int y=(nodes[x].length/2)-1; y<nodes[x].length-1; y++) {
+      if (x > 0 && y > 0) {
+        nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
+      }
+    }
+  }  
+  for ( int x=(nodes.length/2)-1; x<nodes.length -1; x++) {
+    for (int y=(nodes[x].length/2)-1; y<nodes[x].length-1; y++) {
+      if (x > 0 && y > 0) {
+        nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
+      }
+    }
+  }
+  for ( int x=(nodes.length/2)-1; x<nodes.length -1; x++) {
+   for (int y = 0; y < (nodes[x].length / 2) - 1; y++) { 
+     if (x > 0 && y > 0) {
+       nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
+     }
+   }
+  }
 }
+
 
 void drawWater() {
   float alt = highestZ()- ((highestZ() + lowestZ())/2);
