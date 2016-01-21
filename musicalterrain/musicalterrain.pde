@@ -1,5 +1,6 @@
 import ddf.minim.*;
 
+ArrayList<Tree> trees;
 Minim minim;
 AudioPlayer groove;
 GridNode[][] nodes;
@@ -11,6 +12,7 @@ int avg = 0;
 
 void setup() { 
   //frameRate(30);
+  trees = new ArrayList<Tree>();
   size(500, 500, P3D);
   nodes = new GridNode[40][40];
   for (int x = 0; x < nodes.length; x++) {
@@ -19,12 +21,14 @@ void setup() {
       //angle+=5;
     }
   }
+  for (int i = 0; i < 10; i++) {
+    trees.add(new Tree(random(80), random(80), 0));
   crawl = new Crawler(20, 20, 0);
   pauseDrawing= false;
   minim = new Minim(this);
   groove = minim.loadFile("hello.mp3", 1600);
   groove.loop();
-  distZ = (height/2) / tan(PI/8);
+  distZ = (height/2) / tan(PI/8);Z
   surface.setResizable(true);
 }
 
@@ -38,6 +42,7 @@ void draw() {
   camera(width - (mouseX * 2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
   //scale(2);
   drawGrid();
+  moveTrees();
   println(crawl.getX() + " " + crawl.getY() + " " + crawl.getZ());
   crawl.move(nodes[crawl.getX()][crawl.getY()].z);
   crawl.display();
@@ -49,6 +54,12 @@ void draw() {
     if (key == 's') {
       distZ+=height/50;
     }
+  }  
+}
+
+void moveTrees() {
+  for(int i = 0; i < trees.size(); i++) {
+    trees.get(i).setZ(nodes[trees.get(i).x][trees.get(i).y].z);
   }
 }
 
@@ -80,11 +91,6 @@ void drawGrid() {
   noStroke();
   drawBorders();
   //drawWater();
-  //text("(0,0", 0, 0);
-  //text("(0,Max-Y)",nodes[0][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
-  //text("(Max-X, Max-Y)", nodes[nodes[0].length-1][0].x,nodes[nodes[0].length-1][nodes[0].length-1].y);
-  //print (nodes[nodes[0].length-1][0].x);
-  //println (nodes[0][nodes.length-1].y);
 }
 
 void averageValues() {
@@ -210,13 +216,6 @@ float highestZ() {
   return highest;
 }
 
-//void gridBlur() {
-//  for (int x = 0; x < nodes.length - 2; x++) {
-//    for (int y = 0; y < nodes[0].length; y++) {
-//      nodes[x][y].setZ((nodes[x][y].getZ() + nodes[x+1][y].getZ() + nodes[x+1][y].getZ()) / 3);
-//    }
-//  }
-//}
 
 void keyPressed() {
   if (key == ' ') {

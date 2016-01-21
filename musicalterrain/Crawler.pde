@@ -11,7 +11,7 @@ public class Crawler{
    pushMatrix();
    rotateX(PI/2.5);
    translate(x, y, z);
-   box(1);
+   box(10);
    popMatrix();
  }
  
