@@ -7,6 +7,7 @@ float angle;
 float distZ;
 boolean pauseDrawing;
 Crawler crawl;
+int avg = 0;
 
 void setup() { 
   //frameRate(30);
@@ -54,7 +55,6 @@ void draw() {
 void drawGrid() {
   rotateX(PI/2.5);
   scale(width/100);
-
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
       if (groove.isPlaying() && ! pauseDrawing) {
@@ -63,7 +63,7 @@ void drawGrid() {
       nodes[x][y].display();
     }
   }
-   averageValues();
+  averageValues();
   //connected them but its hard to tell if its working properly or not
   for (int x=0; x<nodes.length-1; x++) {
     for (int y=0; y<nodes[0].length-1; y++) {
@@ -89,57 +89,17 @@ void drawGrid() {
 
 void averageValues() {
   GridNode[][] temp = new GridNode[nodes.length][];
-  for (int x=0; x<nodes.length; x++){
+  for (int x=0; x<nodes.length; x++) {
     temp[x]=nodes[x].clone();
   }
   for (int x = 0; x < (nodes.length) - 1; x++) {
-   for (int y = 0; y < (nodes[x].length) - 1; y++) { 
-     if (x > 0 && y > 0) {
-       nodes[x][y].z = (temp[x][y].z + ((temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4))/2;
-     }
-   }
+    for (int y = 0; y < (nodes[x].length) - 1; y++) { 
+      if (x > 0 && y > 0) {
+        nodes[x][y].z = (temp[x][y].z + ((temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4))/2;
+      }
+    }
   }
 }
-
-void averageTerrain() {
-  GridNode[][] temp;
-  temp = new GridNode [nodes.length][nodes[0].length];
-  for (int x=0; x<nodes.length;x++){
-    for (int y=0; y<nodes[0].length; y++){
-      temp [x][y] = nodes [x][y];
-    }
-  }
-  
-  for (int x = 0; x < (nodes.length/ 2) - 1; x++) {
-    for (int y = 0; y < (nodes[x].length / 2) - 1; y++) { 
-      if (x > 0 && y > 0) {
-        nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
-      }
-    }
-  }  
-  for (int x = 0; x < (nodes.length/ 2) - 1; x++) {
-    for (int y=(nodes[x].length/2)-1; y<nodes[x].length-1; y++) {
-      if (x > 0 && y > 0) {
-        nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
-      }
-    }
-  }  
-  for ( int x=(nodes.length/2)-1; x<nodes.length -1; x++) {
-    for (int y=(nodes[x].length/2)-1; y<nodes[x].length-1; y++) {
-      if (x > 0 && y > 0) {
-        nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
-      }
-    }
-  }
-  for ( int x=(nodes.length/2)-1; x<nodes.length -1; x++) {
-   for (int y = 0; y < (nodes[x].length / 2) - 1; y++) { 
-     if (x > 0 && y > 0) {
-       nodes[x][y].z = (temp[x + 1][y].z + temp[x - 1][y].z + temp[x][y + 1].z + temp[x][y - 1].z) / 4;
-     }
-   }
-  }
-}
-
 
 void drawWater() {
   float alt = highestZ()- ((highestZ() + lowestZ())/2);
@@ -262,6 +222,10 @@ void keyPressed() {
   if (key == ' ') {
     if (groove.isPlaying()) {
       groove.pause();
+      // WORKS BUT NO ANIMATION
+      //for (int x=0; x<20; x++){
+      // averageValues();
+      //}
     } else {
       groove.play();
     }
