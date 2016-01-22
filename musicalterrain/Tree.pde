@@ -3,7 +3,7 @@ public class Tree extends Node{
  float[][] treePoints;
  
  Tree(float x,float y,float z,float h) {
-  super(x, y, z, h, 0);
+  super(x, y, z, h);
  }
  
  void move() {  

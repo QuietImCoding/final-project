@@ -1,8 +1,8 @@
 public class GridNode extends Node implements Cloneable {
   float dist;
 
-  GridNode(float xcor, float ycor, float zcor, float amplitude, float myangle) {
-    super(xcor, ycor, zcor, amplitude, myangle);
+  GridNode(float xcor, float ycor, float zcor, float amplitude) {
+    super(xcor, ycor, zcor, amplitude);
     dist = 0;
   }
 

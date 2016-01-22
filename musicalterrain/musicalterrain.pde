@@ -15,22 +15,22 @@ void setup() {
   trees = new ArrayList<Tree>();
   size(500, 500, P3D);
   nodes = new GridNode[40][40];
+  crawl = new Crawler(0, 0, 0,0);
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
-      nodes[x][y] = new GridNode(x * 2, y * 2, 0, 60, angle);
+      nodes[x][y] = new GridNode(x * 2, y * 2, 0, 60);
       //angle+=5;
     }
   }
   for (int i = 0; i < 10; i++) {
     trees.add(new Tree(random(40), random(40), 0, 10));
-    crawl = new Crawler(20, 20, 0);
+  }
     pauseDrawing= false;
     minim = new Minim(this);
     groove = minim.loadFile("hello.mp3", 1600);
     groove.loop();
     distZ = (height/2) / tan(PI/8);
     surface.setResizable(true);
-  }
 }
 
 void draw() {
@@ -40,13 +40,11 @@ void draw() {
   //translate(width/16, height/4, -500 * cos(radians(60)));
   //camera(width/2, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   pushMatrix();
-  camera(width - (mouseX * 2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
-  //scale(2);
+  camera(width - (mouseX *  2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
+  //scale(2);;
   drawGrid();
   moveTrees();
-  println(crawl.getX() + " " + crawl.getY() + " " + crawl.getZ());
-  crawl.move(nodes[crawl.getX()][crawl.getY()].z);
-  crawl.display();
+  //moveCrawler();
   popMatrix();
   if (keyPressed) {
     if (key == 'w') {
@@ -56,6 +54,12 @@ void draw() {
       distZ+=height/50;
     }
   }
+}
+
+void moveCrawler(){
+  //println(crawl.getX() + " " + crawl.getY() + " " + crawl.getZ());
+  crawl.moveZ(nodes[(int)crawl.getX()][(int)crawl.getY()].z);
+  crawl.display();
 }
 
 void moveTrees() {
@@ -91,6 +95,7 @@ void drawGrid() {
   }
   noStroke();
   drawBorders();
+  moveCrawler();
   //drawWater();
 }
 
@@ -235,6 +240,9 @@ void keyPressed() {
       pauseDrawing = false;
     } else {
       pauseDrawing = true;
+            for (int x=0; x<20; x++){
+      averageValues();
+      }
     }
   }
 }

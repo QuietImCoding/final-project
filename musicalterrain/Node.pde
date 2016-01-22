@@ -1,12 +1,11 @@
 public abstract class Node {
-  float x, y, z, a, angle;
+  float x, y, z, a;
 
-  Node(float xcor, float ycor, float zcor, float amplitude, float myangle) {
+  Node(float xcor, float ycor, float zcor, float amplitude) {
     x = xcor;
     y = ycor;
     z = zcor;
     a = amplitude;
-    angle = myangle;
   }
 
   abstract void move();
