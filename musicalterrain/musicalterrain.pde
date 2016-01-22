@@ -22,14 +22,15 @@ void setup() {
     }
   }
   for (int i = 0; i < 10; i++) {
-    trees.add(new Tree(random(80), random(80), 0));
-  crawl = new Crawler(20, 20, 0);
-  pauseDrawing= false;
-  minim = new Minim(this);
-  groove = minim.loadFile("hello.mp3", 1600);
-  groove.loop();
-  distZ = (height/2) / tan(PI/8);Z
-  surface.setResizable(true);
+    trees.add(new Tree(random(40), random(40), 0, 10));
+    crawl = new Crawler(20, 20, 0);
+    pauseDrawing= false;
+    minim = new Minim(this);
+    groove = minim.loadFile("hello.mp3", 1600);
+    groove.loop();
+    distZ = (height/2) / tan(PI/8);
+    surface.setResizable(true);
+  }
 }
 
 void draw() {
@@ -54,12 +55,12 @@ void draw() {
     if (key == 's') {
       distZ+=height/50;
     }
-  }  
+  }
 }
 
 void moveTrees() {
-  for(int i = 0; i < trees.size(); i++) {
-    trees.get(i).setZ(nodes[trees.get(i).x][trees.get(i).y].z);
+  for (int i = 0; i < trees.size(); i++) {
+    trees.get(i).setZ(nodes[(int)(trees.get(i).x)][(int)(trees.get(i).y)].z);
   }
 }
 
@@ -74,7 +75,7 @@ void drawGrid() {
       nodes[x][y].display();
     }
   }
-  averageValues();
+  //averageValues();
   //connected them but its hard to tell if its working properly or not
   for (int x=0; x<nodes.length-1; x++) {
     for (int y=0; y<nodes[0].length-1; y++) {
@@ -222,9 +223,9 @@ void keyPressed() {
     if (groove.isPlaying()) {
       groove.pause();
       // WORKS BUT NO ANIMATION
-      //for (int x=0; x<20; x++){
-      // averageValues();
-      //}
+      for (int x=0; x<20; x++){
+      averageValues();
+      }
     } else {
       groove.play();
     }
