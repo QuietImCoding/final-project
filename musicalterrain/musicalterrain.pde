@@ -9,6 +9,8 @@ float distZ;
 boolean pauseDrawing;
 Crawler crawl;
 int avg = 0;
+float moveX;
+float moveY;
 
 void setup() { 
   //frameRate(30);
@@ -16,10 +18,12 @@ void setup() {
   size(500, 500, P3D);
   nodes = new GridNode[40][40];
   crawl = new Crawler(0, 0, 0,0);
+  float moveX = crawl.getX();
+  float moveY = crawl.getY();
+  crawl.moveXY(40,40);
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
       nodes[x][y] = new GridNode(x * 2, y * 2, 0, 60);
-      //angle+=5;
     }
   }
   for (int i = 0; i < 10; i++) {
@@ -27,10 +31,11 @@ void setup() {
   }
     pauseDrawing= false;
     minim = new Minim(this);
-    groove = minim.loadFile("hello.mp3", 1600);
+    groove = minim.loadFile("insideout.mp3", 1600);
     groove.loop();
     distZ = (height/2) / tan(PI/8);
     surface.setResizable(true);
+    
 }
 
 void draw() {
@@ -43,6 +48,10 @@ void draw() {
   camera(width - (mouseX *  2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
   //scale(2);;
   drawGrid();
+  text(0,nodes[0][0].x,nodes[0][0].y,nodes[0][0].z);
+  text(1,nodes[nodes.length-1][nodes.length-1].x,nodes[nodes.length-1][nodes.length-1].y,nodes[nodes.length-1][nodes.length-1].z);
+  text("-x",-25,0,0);
+  text("-y",0,-25,0);
   moveTrees();
   //moveCrawler();
   popMatrix();
@@ -57,9 +66,21 @@ void draw() {
 }
 
 void moveCrawler(){
-  //println(crawl.getX() + " " + crawl.getY() + " " + crawl.getZ());
-  crawl.moveZ(nodes[(int)crawl.getX()][(int)crawl.getY()].z);
+  int randRangeX = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
+  int randRangeY = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
   crawl.display();
+  if (moveX > nodes[0][0].x || moveX < nodes[nodes.length-1][nodes.length-1].x || moveY > nodes[0][0].y || moveY < nodes[nodes.length-1][nodes.length-1].y){ 
+    moveX += randRangeX;
+    moveY += randRangeY;
+    crawl.moveXY(randRangeX,randRangeY);
+    println("moveX:" + moveX + "," + "MoveY:" + moveY);
+    //println("ok");
+  }
+  else{
+    println("not ok");
+  }
+  crawl.moveZ(nodes[(int)crawl.getX()][(int)crawl.getY()].z);
+ // println("("+ crawl.getX() + "," + crawl.getY() + ")");
 }
 
 void moveTrees() {
@@ -93,9 +114,9 @@ void drawGrid() {
       endShape();
     }
   }
+  moveCrawler();
   noStroke();
   drawBorders();
-  moveCrawler();
   //drawWater();
 }
 

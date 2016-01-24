@@ -27,7 +27,6 @@ public class GridNode extends Node implements Cloneable {
     pushMatrix();
     //box(5,5,10); this was a test to see the coordinates
     translate(x, y, z);
-    //ellipse(0, 0, 1, 1);
     popMatrix();
   }
 }

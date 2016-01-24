@@ -5,7 +5,7 @@ public class Crawler extends Node{
   super(x,y,z,amp);
  }
  
- void display() {
+ void display() { 
    pushMatrix();
    translate(x, y, z);
    box(5);
@@ -15,20 +15,12 @@ public class Crawler extends Node{
  void move() {
  }
  
+ void moveXY(float xcor, float ycor){
+   x +=xcor;
+   y +=ycor;
+ }
+ 
  void moveZ(float z) {
    this.z = z;
  }
-
- 
- //int getX() {
- //  return (int)x;
- //}
- 
- //int getY() {
- //  return (int)y;
- //}
- 
- //float getZ() {
- //  return (int)z;
- //}
 }
