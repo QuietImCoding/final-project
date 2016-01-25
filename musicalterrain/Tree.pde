@@ -13,5 +13,6 @@ public class Tree extends Node{
    strokeWeight(5);
    stroke(255);
    line(x, y, z, x, y, z+50);
+   noStroke();
  }
 }

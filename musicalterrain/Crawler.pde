@@ -2,12 +2,14 @@ public class Crawler extends Node{
  float x, y, z;
  float moveX;
  float moveY;
+ float id; 
  
- Crawler(float x,float y,float z, float amp) {
+ Crawler(float x,float y,float z, float amp, float id) {
   super(x,y,z,amp);
  }
  
  void display() { 
+   fill(127 + sin(radians(id*id)),127 + tan(radians(id * id)), 127 + cos(radians(id * id))); 
    pushMatrix();
    translate(x, y, z);
    box(5);

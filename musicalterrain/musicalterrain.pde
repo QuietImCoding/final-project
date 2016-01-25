@@ -7,6 +7,7 @@ GridNode[][] nodes;
 float angle;
 float distZ;
 boolean pauseDrawing;
+ArrayList<Crawler> crawlers;
 Crawler crawl;
 int avg = 0;
 
@@ -15,9 +16,13 @@ void setup() {
   trees = new ArrayList<Tree>();
   size(500, 500, P3D);
   nodes = new GridNode[40][40];
-  crawl = new Crawler(0, 0, 0, 0);
-  ;
-  crawl.moveXY(40, 40);
+  crawlers = new ArrayList<Crawler>();
+  //crawl = new Crawler(0, 0, 0, 0);
+  //crawlers = new ArrayList<Crawler>();
+  for (int i = 0; i < 3; i++) {
+    crawlers.add(new Crawler(0, 0, 0, 0, i));
+    crawlers.get(i).moveXY(40, 40);
+  }
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
       nodes[x][y] = new GridNode(x * 2, y * 2, 0, 60);
@@ -61,37 +66,38 @@ void draw() {
   }
 }
 
-void moveCrawler() {
-  int randRangeX = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
-  int randRangeY = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
-  int xcord= 20 + (int) (crawl.moveX/2);
-  int ycord= 20 + (int) (crawl.moveY/2);
-  crawl.display();
-  if (crawl.moveX > -40 && crawl.moveX < 40 && crawl.moveY > -40 && crawl.moveY < 40) { 
-    crawl.moveX += randRangeX;
-    crawl.moveY += randRangeY;
-    crawl.moveXY(randRangeX, randRangeY);
-    //println("moveX:" + crawl.moveX + "," + "MoveY:" + crawl.moveY);
-    println("("+ xcord + "," + ycord + ")");
-    crawl.moveZ(nodes[xcord][ycord].z);
-    //println("ok");
-  } 
-  else {
-    if (crawl.moveX < -38) {
-      crawl.x += 5;
-      crawl.moveX += 5;
-    } 
-    if (crawl.moveX >38) {
-      crawl.x -= 5;
-      crawl.moveX -= 5;
-    }
-    if (crawl.moveY < -38) {
-      crawl.y += 5;
-      crawl.moveY += 5;
-    }
-    if (crawl.moveY > 38) {
-      crawl.y -= 5;
-      crawl.moveY -= 5;
+void moveCrawlers() {
+  for (int i = 0; i < crawlers.size(); i++) {
+    int randRangeX = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
+    int randRangeY = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
+    int xcord= 20 + (int) (crawlers.get(i).moveX/2);
+    int ycord= 20 + (int) (crawlers.get(i).moveY/2);
+    crawlers.get(i).display();
+    if (crawlers.get(i).moveX > -40 && crawlers.get(i).moveX < 40 && crawlers.get(i).moveY > -40 && crawlers.get(i).moveY < 40) { 
+      crawlers.get(i).moveX += randRangeX;
+      crawlers.get(i).moveY += randRangeY;
+      crawlers.get(i).moveXY(randRangeX, randRangeY);
+      //println("moveX:" + crawl.moveX + "," + "MoveY:" + crawl.moveY);
+      println("("+ xcord + "," + ycord + ")");
+      crawlers.get(i).moveZ(nodes[xcord][ycord].z);
+      //println("ok");
+    } else {
+      if (crawlers.get(i).moveX < -38) {
+        crawlers.get(i).x += 5;
+        crawlers.get(i).moveX += 5;
+      } 
+      if (crawlers.get(i).moveX >38) {
+        crawlers.get(i).x -= 5;
+        crawlers.get(i).moveX -= 5;
+      }
+      if (crawlers.get(i).moveY < -38) {
+        crawlers.get(i).y += 5;
+        crawlers.get(i).moveY += 5;
+      }
+      if (crawlers.get(i).moveY > 38) {
+        crawlers.get(i).y -= 5;
+        crawlers.get(i).moveY -= 5;
+      }
     }
   }
   // println("("+ crawl.getX() + "," + crawl.getY() + ")");
@@ -100,6 +106,7 @@ void moveCrawler() {
 void moveTrees() {
   for (int i = 0; i < trees.size(); i++) {
     trees.get(i).setZ(nodes[(int)(trees.get(i).x)][(int)(trees.get(i).y)].z);
+    trees.get(i).display();
   }
 }
 
@@ -128,7 +135,7 @@ void drawGrid() {
       endShape();
     }
   }
-  moveCrawler();
+  moveCrawlers();
   noStroke();
   drawBorders();
   //drawWater();
@@ -148,36 +155,9 @@ void averageValues() {
   }
 }
 
-void drawWater() {
-  float alt = highestZ()- ((highestZ() + lowestZ())/2);
-  if (highestZ()- lowestZ() > 10) {
-    pushMatrix();
-    fill(0, 0, 210);
-    beginShape();
-    vertex(nodes[0][0].x+1, nodes[0][0].y+1, lowestZ()+alt);
-    vertex(nodes[0][0].x+1, nodes[nodes[0].length-1][nodes[0].length-1].y-1, lowestZ()+alt);
-    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x-1, nodes[nodes[0].length-1][nodes[0].length-1].y+1, lowestZ()+alt);
-    vertex(nodes[nodes[0].length-1][nodes[0].length-1].x-1, nodes[0][0].y+1, lowestZ()+alt);
-    endShape();
-    // IGNORE. DOESNT WORK AS INTENDED
-    //beginShape();
-    //vertex(nodes[0][0].x+1, nodes[0][0].y+1, lowestZ()+alt);
-    //vertex(nodes[0][0].x+1, nodes[0][0].y+1, lowestZ()-alt);
-    //vertex(nodes[0][0].x+1, nodes[0][nodes.length-1].y+1, lowestZ()-alt);
-    //vertex(nodes[0][0].x+1, nodes[0][nodes.length-1].y+1, lowestZ()+alt);
-    //endShape();
-    //beginShape();
-    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[0][nodes[0].length-1].y-1, lowestZ()+alt);
-    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[0][nodes[0].length-1].y-1, lowestZ()-alt);
-    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[nodes[0].length-1][nodes[0].length-1].y-1, lowestZ()-alt);
-    //vertex(nodes[0][nodes[0].length-1].x+1, nodes[nodes[0].length-1][nodes[0].length-1].y-1, lowestZ()+alt);;
-    //endShape();
-    popMatrix();
-  }
-}
-
 
 void drawBorders() {
+  fill(10 * nodes[0][0].z, 120, 0);
   noStroke();
   drawBorder();
   drawBorder2();

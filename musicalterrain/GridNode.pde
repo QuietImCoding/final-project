@@ -9,6 +9,7 @@ public class GridNode extends Node implements Cloneable {
   void move() {
     z += sin(radians(2 * angle)) * a;
     angle += 10;
+
   }
 
   void move(float dist) {
