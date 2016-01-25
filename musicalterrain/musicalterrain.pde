@@ -15,8 +15,9 @@ void setup() {
   trees = new ArrayList<Tree>();
   size(500, 500, P3D);
   nodes = new GridNode[40][40];
-  crawl = new Crawler(0, 0, 0,0);;
-  crawl.moveXY(40,40);
+  crawl = new Crawler(0, 0, 0, 0);
+  ;
+  crawl.moveXY(40, 40);
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
       nodes[x][y] = new GridNode(x * 2, y * 2, 0, 60);
@@ -25,13 +26,12 @@ void setup() {
   for (int i = 0; i < 10; i++) {
     trees.add(new Tree(random(40), random(40), 0, 10));
   }
-    pauseDrawing= false;
-    minim = new Minim(this);
-    groove = minim.loadFile("hello.mp3", 1600);
-    groove.loop();
-    distZ = (height/2) / tan(PI/8);
-    surface.setResizable(true);
-    
+  pauseDrawing= false;
+  minim = new Minim(this);
+  groove = minim.loadFile("hello.mp3", 1600);
+  groove.loop();
+  distZ = (height/2) / tan(PI/8);
+  surface.setResizable(true);
 }
 
 void draw() {
@@ -44,10 +44,10 @@ void draw() {
   camera(width - (mouseX *  2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
   //scale(2);;
   drawGrid();
-  text(0,nodes[0][0].x,nodes[0][0].y,nodes[0][0].z);
-  text(1,nodes[nodes.length-1][nodes.length-1].x,nodes[nodes.length-1][nodes.length-1].y,nodes[nodes.length-1][nodes.length-1].z);
-  text("-x",-25,0,0);
-  text("-y",0,-25,0);
+  text(0, nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
+  text(1, nodes[nodes.length-1][nodes.length-1].x, nodes[nodes.length-1][nodes.length-1].y, nodes[nodes.length-1][nodes.length-1].z);
+  text("-x", -25, 0, 0);
+  text("-y", 0, -25, 0);
   moveTrees();
   //moveCrawler();
   popMatrix();
@@ -61,25 +61,40 @@ void draw() {
   }
 }
 
-void moveCrawler(){
+void moveCrawler() {
   int randRangeX = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
   int randRangeY = -1 + (int)(Math.random() * ((1 - (-1)) + 1));
   int xcord= 20 + (int) (crawl.moveX/2);
   int ycord= 20 + (int) (crawl.moveY/2);
   crawl.display();
-  if (crawl.moveX > -40 && crawl.moveX < 40 && crawl.moveY > -40 && crawl.moveY < 40){ 
+  if (crawl.moveX > -40 && crawl.moveX < 40 && crawl.moveY > -40 && crawl.moveY < 40) { 
     crawl.moveX += randRangeX;
     crawl.moveY += randRangeY;
-    crawl.moveXY(randRangeX,randRangeY);
+    crawl.moveXY(randRangeX, randRangeY);
     //println("moveX:" + crawl.moveX + "," + "MoveY:" + crawl.moveY);
     println("("+ xcord + "," + ycord + ")");
     crawl.moveZ(nodes[xcord][ycord].z);
     //println("ok");
+  } 
+  else {
+    if (crawl.moveX < -38) {
+      crawl.x += 5;
+      crawl.moveX += 5;
+    } 
+    if (crawl.moveX >38) {
+      crawl.x -= 5;
+      crawl.moveX -= 5;
+    }
+    if (crawl.moveY < -38) {
+      crawl.y += 5;
+      crawl.moveY += 5;
+    }
+    if (crawl.moveY > 38) {
+      crawl.y -= 5;
+      crawl.moveY -= 5;
+    }
   }
-  else{
-    println("not ok");
-  }
- // println("("+ crawl.getX() + "," + crawl.getY() + ")");
+  // println("("+ crawl.getX() + "," + crawl.getY() + ")");
 }
 
 void moveTrees() {
@@ -248,8 +263,8 @@ void keyPressed() {
     if (groove.isPlaying()) {
       groove.pause();
       // WORKS BUT NO ANIMATION
-      for (int x=0; x<20; x++){
-      averageValues();
+      for (int x=0; x<20; x++) {
+        averageValues();
       }
     } else {
       groove.play();
@@ -260,8 +275,8 @@ void keyPressed() {
       pauseDrawing = false;
     } else {
       pauseDrawing = true;
-            for (int x=0; x<20; x++){
-      averageValues();
+      for (int x=0; x<20; x++) {
+        averageValues();
       }
     }
   }
