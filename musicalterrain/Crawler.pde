@@ -1,5 +1,7 @@
 public class Crawler extends Node{
  float x, y, z;
+ float moveX;
+ float moveY;
  
  Crawler(float x,float y,float z, float amp) {
   super(x,y,z,amp);
