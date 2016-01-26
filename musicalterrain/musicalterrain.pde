@@ -12,26 +12,43 @@ Crawler crawl;
 int avg = 0;
 
 void setup() { 
-  //frameRate(30);
+  frameRate(60);
   trees = new ArrayList<Tree>();
   size(500, 500, P3D);
   nodes = new GridNode[40][40];
   crawlers = new ArrayList<Crawler>();
-  //crawl = new Crawler(0, 0, 0, 0);
-  //crawlers = new ArrayList<Crawler>();
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 10; i++) {
     crawlers.add(new Crawler(0, 0, 0, 0, i));
     crawlers.get(i).moveXY(40, 40);
+    int randNum=(int)(Math.random() * (3));
+    if (randNum == 0) {
+      crawlers.get(i).s=loadShape("Stormtrooper.obj");
+      crawlers.get(i).s.scale(2);
+      crawlers.get(i).s.rotateX(-(3.0/2.0)*PI);
+      crawlers.get(i).s.rotateY(random(6)*PI);
+    }
+    if (randNum == 1) {
+      crawlers.get(i).s=loadShape("Deer.obj");
+      crawlers.get(i).s.scale(.02);
+      crawlers.get(i).s.rotateX(-(3.0/2.0)*PI);
+      crawlers.get(i).s.rotateY(random(6)*PI);
+    }
+    if (randNum == 2) {
+      crawlers.get(i).s=loadShape("Wolf.obj");
+      crawlers.get(i).s.scale(.02);
+      crawlers.get(i).s.rotateX(-(3.0/2.0)*PI);
+      crawlers.get(i).s.rotateY(random(6)*PI);
+    }
   }
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
       nodes[x][y] = new GridNode(x * 2, y * 2, 0, 60);
     }
   }
-  for (int i = 0; i < 10; i++) {
-    trees.add(new Tree(random(40), random(40), 0, 10));
-    trees.get(i).t=loadShape("tree.obj");
-    trees.get(i).t.scale(.01);
+  for (int i = 0; i < 20; i++) {
+    trees.add(new Tree(random(38) + 1, random(38) + 1, 0, 20));
+    trees.get(i).t=loadShape("lowpolytree.obj");
+    trees.get(i).t.scale(3);
     trees.get(i).t.rotateX(-(3.0/2.0)*PI);
   }
   pauseDrawing= false;
@@ -43,21 +60,11 @@ void setup() {
 }
 
 void draw() {
-  background(0);
+  background(118, 181, 232);
   lights();
-  //ambientLight(255, 255, 255);
-  //translate(width/16, height/4, -500 * cos(radians(60)));
-  //camera(width/2, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
   pushMatrix();
   camera(width - (mouseX *  2), height / 2 - mouseY, distZ, width/2, height/2, 0, 0, 1, 0);
-  //scale(2);;
   drawGrid();
-  text(0, nodes[0][0].x, nodes[0][0].y, nodes[0][0].z);
-  text(1, nodes[nodes.length-1][nodes.length-1].x, nodes[nodes.length-1][nodes.length-1].y, nodes[nodes.length-1][nodes.length-1].z);
-  text("-x", -25, 0, 0);
-  text("-y", 0, -25, 0);
-  moveTrees();
-  //moveCrawler();
   popMatrix();
   if (keyPressed) {
     if (key == 'w') {
@@ -76,30 +83,32 @@ void moveCrawlers() {
     int xcord= 20 + (int) (crawlers.get(i).moveX/2);
     int ycord= 20 + (int) (crawlers.get(i).moveY/2);
     crawlers.get(i).display();
-    if (crawlers.get(i).moveX > -40 && crawlers.get(i).moveX < 40 && crawlers.get(i).moveY > -40 && crawlers.get(i).moveY < 40) { 
-      crawlers.get(i).moveX += randRangeX;
-      crawlers.get(i).moveY += randRangeY;
-      crawlers.get(i).moveXY(randRangeX, randRangeY);
-      //println("moveX:" + crawl.moveX + "," + "MoveY:" + crawl.moveY);
-      //println("("+ xcord + "," + ycord + ")");
-      crawlers.get(i).moveZ(nodes[xcord][ycord].z);
-      //println("ok");
-    } else {
-      if (crawlers.get(i).moveX < -38) {
-        crawlers.get(i).x += 5;
-        crawlers.get(i).moveX += 5;
-      } 
-      if (crawlers.get(i).moveX >38) {
-        crawlers.get(i).x -= 5;
-        crawlers.get(i).moveX -= 5;
-      }
-      if (crawlers.get(i).moveY < -38) {
-        crawlers.get(i).y += 5;
-        crawlers.get(i).moveY += 5;
-      }
-      if (crawlers.get(i).moveY > 38) {
-        crawlers.get(i).y -= 5;
-        crawlers.get(i).moveY -= 5;
+    if (frameCount % 2 == 0) {
+      if (crawlers.get(i).moveX > -40 && crawlers.get(i).moveX < 40 && crawlers.get(i).moveY > -40 && crawlers.get(i).moveY < 40) { 
+        crawlers.get(i).moveX += randRangeX;
+        crawlers.get(i).moveY += randRangeY;
+        crawlers.get(i).moveXY(randRangeX, randRangeY);
+        //println("moveX:" + crawl.moveX + "," + "MoveY:" + crawl.moveY);
+        //println("("+ xcord + "," + ycord + ")");
+        crawlers.get(i).moveZ(nodes[xcord][ycord].z);
+        //println("ok");
+      } else {
+        if (crawlers.get(i).moveX < -38) {
+          crawlers.get(i).x += 5;
+          crawlers.get(i).moveX += 5;
+        } 
+        if (crawlers.get(i).moveX >38) {
+          crawlers.get(i).x -= 5;
+          crawlers.get(i).moveX -= 5;
+        }
+        if (crawlers.get(i).moveY < -38) {
+          crawlers.get(i).y += 5;
+          crawlers.get(i).moveY += 5;
+        }
+        if (crawlers.get(i).moveY > 38) {
+          crawlers.get(i).y -= 5;
+          crawlers.get(i).moveY -= 5;
+        }
       }
     }
   }
@@ -109,7 +118,7 @@ void moveCrawlers() {
 void moveTrees() {
   for (int i = 0; i < trees.size(); i++) {
     trees.get(i).setZ(nodes[(int)(trees.get(i).x)][(int)(trees.get(i).y)].z);
-    trees.get(i).display();
+    trees.get(i).display(abs(nodes[(int)(trees.get(i).x)][(int)(trees.get(i).y)].z - lowestZ())/10);
   }
 }
 
@@ -118,7 +127,7 @@ void drawGrid() {
   scale(width/100);
   for (int x = 0; x < nodes.length; x++) {
     for (int y = 0; y < nodes[0].length; y++) {
-      if (groove.isPlaying() && ! pauseDrawing) {
+      if (groove.isPlaying() && ! pauseDrawing && frameCount%5==0) {
         nodes[x][y].move(groove.mix.get(x + y)*.5);
       }
       nodes[x][y].display();
@@ -141,7 +150,10 @@ void drawGrid() {
   moveCrawlers();
   noStroke();
   drawBorders();
-  //drawWater();
+  for(int i = 0; i < 3; i++) {
+    averageValues();
+  }
+  moveTrees();
 }
 
 void averageValues() {

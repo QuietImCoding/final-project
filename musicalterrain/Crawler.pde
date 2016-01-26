@@ -3,6 +3,7 @@ public class Crawler extends Node{
  float moveX;
  float moveY;
  float id; 
+ PShape s;
  
  Crawler(float x,float y,float z, float amp, float id) {
   super(x,y,z,amp);
@@ -12,8 +13,10 @@ public class Crawler extends Node{
    fill(127 + sin(radians(id*id)),127 + tan(radians(id * id)), 127 + cos(radians(id * id))); 
    pushMatrix();
    translate(x, y, z);
-   box(5);
+   //box(5);
+   shape(s,0,0);
    popMatrix();
+   ;
  }
  
  void move() {
