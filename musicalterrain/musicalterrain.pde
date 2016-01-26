@@ -30,6 +30,9 @@ void setup() {
   }
   for (int i = 0; i < 10; i++) {
     trees.add(new Tree(random(40), random(40), 0, 10));
+    trees.get(i).t=loadShape("tree.obj");
+    trees.get(i).t.scale(.01);
+    trees.get(i).t.rotateX(-(3.0/2.0)*PI);
   }
   pauseDrawing= false;
   minim = new Minim(this);
@@ -78,7 +81,7 @@ void moveCrawlers() {
       crawlers.get(i).moveY += randRangeY;
       crawlers.get(i).moveXY(randRangeX, randRangeY);
       //println("moveX:" + crawl.moveX + "," + "MoveY:" + crawl.moveY);
-      println("("+ xcord + "," + ycord + ")");
+      //println("("+ xcord + "," + ycord + ")");
       crawlers.get(i).moveZ(nodes[xcord][ycord].z);
       //println("ok");
     } else {
